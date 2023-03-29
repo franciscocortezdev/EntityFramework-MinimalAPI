@@ -9,23 +9,11 @@ builder.Services.AddSqlServer<TareasContext>(builder.Configuration.GetConnection
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World");
-
-app.MapGet("/dbconexion", ([FromServices] TareasContext dbContext) =>
-{
-  dbContext.Database.EnsureCreated();
-  return Results.Ok("Base de datos creada ");
-});
-
 
 
 app.MapGet("/api/tareas", ([FromServices] TareasContext dbContext) =>
 {
-
-
   return Results.Ok(dbContext.Tareas.Include(c => c.Categoria));
-
-
 });
 
 app.MapPost("/api/tareas", async ([FromServices] TareasContext dbContext, [FromBody] Tarea tarea) =>
